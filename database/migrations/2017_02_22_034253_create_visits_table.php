@@ -15,9 +15,8 @@ class CreateVisitsTable extends Migration
     {
         Schema::create('visits', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
-            $table->string('viewable_type');
-            $table->integer('viewable_id');
+            $table->unsignedInteger('user_id')->index();
+            $table->morphs('visitable');
             $table->unsignedTinyInteger('is_latest')->default(1);
             $table->timestamps();
             $table->softDeletes();

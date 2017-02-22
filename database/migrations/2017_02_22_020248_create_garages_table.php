@@ -23,10 +23,10 @@ class CreateGaragesTable extends Migration
             $table->string('phone_number');
             $table->string('address');
             $table->string('website')->nullable();
-            $table->integer('province_id');
-            $table->integer('district_id');
-            $table->integer('ward_id');
-            $table->integer('user_id');
+            $table->unsignedInteger('province_id')->index();
+            $table->unsignedInteger('district_id')->index();
+            $table->unsignedInteger('ward_id')->index();
+            $table->unsignedInteger('user_id')->index();
             $table->string('working_time')->default('7:30 AM - 6:30 PM');
             $table->double('rating')->default(0);
             $table->unsignedTinyInteger('status')->default(0);

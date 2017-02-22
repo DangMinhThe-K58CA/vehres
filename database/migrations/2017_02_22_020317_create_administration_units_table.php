@@ -16,7 +16,7 @@ class CreateAdministrationUnitsTable extends Migration
         Schema::create('administration_units', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('parent_id')->default(0);
+            $table->unsignedInteger('parent_id')->index()->default(0);
         });
     }
 
