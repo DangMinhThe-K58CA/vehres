@@ -15,7 +15,12 @@ class CreateServicesTable extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name');
+            $table->text('description');
+            $table->string('price')->default('0đ');
+            $table->unsignedInteger('garage_id')->index();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

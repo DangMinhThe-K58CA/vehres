@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAdministrationUnitsTable extends Migration
+class CreateVisitsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,13 @@ class CreateAdministrationUnitsTable extends Migration
      */
     public function up()
     {
-        Schema::create('administration_units', function (Blueprint $table) {
+        Schema::create('visits', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->unsignedInteger('parent_id')->index()->default(0);
+            $table->unsignedInteger('user_id')->index();
+            $table->nullableMorphs('visitable');
+            $table->unsignedTinyInteger('is_latest')->default(1)->index();
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -27,6 +30,6 @@ class CreateAdministrationUnitsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('administration_units');
+        Schema::dropIfExists('visits');
     }
 }
