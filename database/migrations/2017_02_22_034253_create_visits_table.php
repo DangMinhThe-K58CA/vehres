@@ -17,7 +17,7 @@ class CreateVisitsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id')->index();
             $table->nullableMorphs('visitable');
-            $table->unsignedTinyInteger('is_latest')->default(1)->index();
+            $table->unsignedInteger('is_latest')->default(1)->index();
             $table->timestamps();
             $table->softDeletes();
         });
