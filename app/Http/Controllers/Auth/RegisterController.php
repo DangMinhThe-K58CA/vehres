@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
+use App\Models\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Symfony\Component\HttpFoundation\Request;
+use Illuminate\Auth\Events\Registered;
+use App\Mail\VerifyAccount;
+use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
@@ -20,7 +26,9 @@ class RegisterController extends Controller
     |
     */
 
-    use RegistersUsers;
+    use RegistersUsers {
+        register as defaultRegister;
+    }
 
     /**
      * Where to redirect users after registration.
@@ -48,9 +56,10 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
+            'name' => 'unique:users,name|required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
+            'description' => 'required|min:6',
         ]);
     }
 
@@ -66,6 +75,36 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'description' => $data['description']
         ]);
+    }
+
+    /**
+     * Customizing register method.
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+        event(new Registered($user = $this->create($request->all())));
+
+        $user = new \stdClass();
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+
+        $this->sendVerifyingEmailTo($user);
+
+        return redirect('register')->with('success', trans('auth.register_success'));
+    }
+
+    /**
+     * Sent verifying email to user email.
+     * @param $user
+     */
+    protected function sendVerifyingEmailTo($user)
+    {
+        $mailObject = new VerifyAccount($user);
+        return Mail::to($user->email)->send($mailObject);
     }
 }

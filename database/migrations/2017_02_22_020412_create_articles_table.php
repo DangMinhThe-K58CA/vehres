@@ -17,7 +17,7 @@ class CreateArticlesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id')->index();
             $table->string('title');
-            $table->unsignedTinyInteger('type');
+            $table->unsignedInteger('type')->nullable();
             $table->string('sort_description');
             $table->longText('content');
             $table->timestamps();
