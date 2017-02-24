@@ -29,7 +29,7 @@ class CreateGaragesTable extends Migration
             $table->unsignedInteger('user_id')->index();
             $table->string('working_time')->default('7:30 AM - 6:30 PM');
             $table->double('rating')->default(0);
-            $table->unsignedTinyInteger('status')->default(0);
+            $table->unsignedInteger('status')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });
