@@ -1,0 +1,22 @@
+{
+  "name": "vehres",
+  "description": "",
+  "main": "",
+  "authors": [
+    "DangMinhThe-K58CA <thekoy.95@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/DangMinhThe-K58CA/vehres",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "resources/assets/bowers",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "font-awesome": "FortAwesome/Font-Awesome#^4.7.0"
+  }
+}
