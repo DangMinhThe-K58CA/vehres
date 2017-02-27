@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Bookmark extends Model
 {
+    protected $fillable = ['user_id', 'bookmarkable_type', 'bookmarkable_id'];
     /**
      * Get all models owning.
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo

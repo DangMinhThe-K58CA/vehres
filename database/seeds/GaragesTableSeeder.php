@@ -18,6 +18,15 @@ class GaragesTableSeeder extends Seeder
         $districts = AdministrationUnit::where('parent_id', 1)->get()->toArray();
 
         for ($i = 0; $i < 1000; $i ++) {
+            $partners = DB::table('users')->select('id')->where('role', 2)->get()->toArray();
+            $partnerIds = [];
+            foreach ($partners as $partner) {
+                array_push($partnerIds, $partner->id);
+            }
+
+            $randPartnerIdx = array_rand($partnerIds);
+            $randPartnerId = $partnerIds[$randPartnerIdx];
+
             $distIdx = array_rand($districts);
             $dist = $districts[$distIdx];
             $distId = $dist['id'];
@@ -41,6 +50,8 @@ class GaragesTableSeeder extends Seeder
             $lat = $lats[rand(0,1)];
             $lng = $lngs[rand(0,1)];
 
+
+
             DB::table('garages')->insert([
                 'lat' => $lat,
                 'lng' => $lng,
@@ -53,7 +64,7 @@ class GaragesTableSeeder extends Seeder
                 'province_id' => 1,
                 'district_id' => $distId,
                 'ward_id' => $wardId,
-                'user_id' => rand(1, 20),
+                'user_id' => $randPartnerId,
                 'working_time' => 'from ' . rand(7,8) . 'AM to ' . rand(16, 22) . 'PM',
                 'rating' => 3.5,
                 'status' => 1,

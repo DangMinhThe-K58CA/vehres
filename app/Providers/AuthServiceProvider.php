@@ -25,6 +25,24 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        //Allow joining to system if account had been activated.
+        Gate::define('join-system', function($user) {
+            return $user->status;
+        });
+
+        //Allow access to admin site if user is administration.
+        Gate::define('is-admin', function($user) {
+            return $user->role === 3;
+        });
+
+        //Allow access to partner site if user is partner.
+        Gate::define('is-partner', function($user) {
+            return $user->role === 2;
+        });
+
+        //Check general user.
+        Gate::define('is-general-user', function($user) {
+            return $user->role === 1;
+        });
     }
 }

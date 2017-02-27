@@ -15,9 +15,17 @@ class ArticlesTableSeeder extends Seeder
     {
         $faker = Faker::create('en_US');
         for ($i = 0; $i < 1000; $i ++) {
+            $partners = DB::table('users')->select('id')->where('role', 2)->get()->toArray();
+            $partnerIds = [];
+            foreach ($partners as $partner) {
+                array_push($partnerIds, $partner->id);
+            }
+
+            $randPartnerIdx = array_rand($partnerIds);
+            $randPartnerId = $partnerIds[$randPartnerIdx];
 
             DB::table('articles')->insert([
-                'user_id' => rand(1, 20),
+                'user_id' => $randPartnerId,
                 'title' => $faker->catchPhrase,
                 'type' => 1,
                 'status' => 1,

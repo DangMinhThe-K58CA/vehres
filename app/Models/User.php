@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
@@ -14,7 +15,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = ['name','email', 'password', 'description', 'avatar'];
+    protected $fillable = ['name', 'email', 'password', 'description', 'avatar'];
 
     /**
      * Get garages which created by user.
@@ -62,9 +63,39 @@ class User extends Authenticatable
     }
 
     /**
+     * Accessor for avatar full path.
+     * @param $value
+     * @return string
+     */
+    public function getAvatarAttribute($value)
+    {
+        $avaPrefix = '/uploads/images/users/avatar/';
+        return $avaPrefix . $value;
+    }
+
+    /**
+     * Check given current password.
+     * @param $curPass
+     * @return mixed
+     */
+    public function isCorrectCurrentPassword($curPass)
+    {
+        return Hash::check($curPass, $this->getAuthPassword());
+    }
+
+    /**
+     * Mutator for password.
+     * @param $password
+     */
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = Hash::make($password);
+    }
+    /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
+
 }
