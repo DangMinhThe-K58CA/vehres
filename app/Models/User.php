@@ -40,7 +40,7 @@ class User extends Authenticatable
      */
     public function distinctVisits()
     {
-        return $this->hasMany(Visit::class)->where('is_latest', 1)->orderBy('created_at', 'desc');
+        return $this->visits()->where('is_latest', 1)->orderBy('created_at', 'desc');
     }
 
     /**
@@ -51,6 +51,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Article::class);
     }
+
+    /**
+     * Get all bookmarks.
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function bookmarks()
     {
         return $this->hasMany(Bookmark::class);

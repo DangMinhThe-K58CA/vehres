@@ -2,6 +2,7 @@
 
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
+use Faker\Factory as Faker;
 
 class ArticlesTableSeeder extends Seeder
 {
@@ -12,15 +13,16 @@ class ArticlesTableSeeder extends Seeder
      */
     public function run()
     {
+        $faker = Faker::create('en_US');
         for ($i = 0; $i < 1000; $i ++) {
 
             DB::table('articles')->insert([
                 'user_id' => rand(1, 20),
-                'title' => str_random(20),
+                'title' => $faker->catchPhrase,
                 'type' => 1,
                 'status' => 1,
-                'short_description' => str_random(100),
-                'content' => str_random(1000),
+                'short_description' => $faker->catchPhrase,
+                'content' => $faker->paragraph,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);

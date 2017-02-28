@@ -3,6 +3,8 @@
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use App\Models\AdministrationUnit;
+use Faker\Factory as Faker;
+
 class GaragesTableSeeder extends Seeder
 {
     /**
@@ -12,7 +14,9 @@ class GaragesTableSeeder extends Seeder
      */
     public function run()
     {
+        $faker = Faker::create('en_US');
         $districts = AdministrationUnit::where('parent_id', 1)->get()->toArray();
+
         for ($i = 0; $i < 1000; $i ++) {
             $distIdx = array_rand($districts);
             $dist = $districts[$distIdx];
@@ -36,14 +40,15 @@ class GaragesTableSeeder extends Seeder
             $lngs = [$tmpLng + $addLng, $tmpLng - $addLng];
             $lat = $lats[rand(0,1)];
             $lng = $lngs[rand(0,1)];
+
             DB::table('garages')->insert([
                 'lat' => $lat,
                 'lng' => $lng,
-                'name' => str_random(20),
-                'short_description' => str_random(100),
-                'description' => str_random(1000),
-                'phone_number' => '' . rand(100, 999) . '' . rand(100, 999) . '' . rand(100, 999),
-                'address' => str_random(30),
+                'name' => 'Tiệm sửa xe ' . $faker->company,
+                'short_description' => $faker->catchPhrase,
+                'description' => $faker->paragraph,
+                'phone_number' => $faker->tollFreePhoneNumber,
+                'address' => $faker->address,
                 'website' => "http://" . str_random(10) . '.com.vn',
                 'province_id' => 1,
                 'district_id' => $distId,

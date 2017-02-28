@@ -7,5 +7,5 @@
 Homestead.json
 Homestead.yaml
 .env
-/public/bowers/
 /resources/assets/bowers/
+/public/bowers
