@@ -28,6 +28,10 @@ return [
             'activated' => 1,
             'unactivated' => 0,
         ],
-    ],
-    'paging_number' => 10,
+        'type' => [
+            'car' => 1,
+            'motor' => 2,
+            'bike' => 3,
+        ]
+    ]
 ];

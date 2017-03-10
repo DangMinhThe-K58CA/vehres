@@ -15,6 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 Auth::routes();
 
 //Administration routes.
@@ -43,6 +44,12 @@ Route::group(['namespace' => 'Home', 'prefix' => 'home', 'middleware' => ['custo
     Route::resource('users', 'UserController', ['except' => [
         'store', 'create', 'destroy', 'show'
     ]]);
+
+    //Route for home page interact with maps.
+    Route::group(['prefix' => 'garage'], function () {
+        Route::get('/getGarages', 'GarageController@getGarages');
+        Route::get('/view', 'GarageController@getSpecificGarage');
+    });
 });
 
 //Account activation route

@@ -113,7 +113,7 @@
                                                     </div>
                                                     <div class="col-md-4 col-md-offset-right-4 col-md-offset-4">
                                                         <br/>
-                                                        <input onchange="previewImage(this, 'previewField');" type="file" id = "avatar" name="avatar" accept="image/*">
+                                                        <input type="file" id = "avatar" name="avatar" accept="image/*">
                                                         @if ($errors->has('avatar'))
                                                             <span class="help-block">
                                                                 <strong>{{ $errors->first('avatar') }}</strong>
