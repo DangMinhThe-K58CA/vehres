@@ -47,9 +47,19 @@ Route::group(['namespace' => 'Home', 'prefix' => 'home', 'middleware' => ['custo
 
     //Route for home page interact with maps.
     Route::group(['prefix' => 'garage'], function () {
+        Route::get('/getInitParameters', 'GarageController@getInitParameters');
         Route::get('/getGarages', 'GarageController@getGarages');
         Route::get('/view', 'GarageController@getSpecificGarage');
     });
+
+    //Route for home page comment.
+    Route::resource('/comments', 'CommentController');
+
+    //Route for home page bookmark.
+    Route::resource('/bookmarks', 'BookmarkController');
+
+    //Route for home page visit.
+    Route::resource('/visits', 'VisitController');
 });
 
 //Account activation route

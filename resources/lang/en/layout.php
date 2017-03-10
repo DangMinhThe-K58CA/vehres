@@ -6,6 +6,10 @@
  * Time: 2:14 PM
  */
 return [
+    'garages' => 'Garage|Garages',
+    'articles' => 'Article|Articles',
+    'seen' => 'Seen',
+    'bookmark' => 'Bookmark',
     'name' => 'Name',
     'login' => 'Login',
     'password' => 'Password',
@@ -25,6 +29,7 @@ return [
     'about_me' => 'About me',
     'email' => 'Email',
     'hello' => 'Hello',
+    'new_password' => 'New password',
     'current_password' => 'Current password',
     'your_email' => 'Your e-mail',
     'email_short_description' => 'is used for registering Vehicle Rescuer account',

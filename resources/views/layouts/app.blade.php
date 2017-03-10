@@ -15,7 +15,7 @@
 
 </head>
 <body>
-<div id="app">
+<div id="app" data-asset-url="{{ asset('') }}">
     <!-- Top Nav bar -->
     @include('layouts.topNav')
 

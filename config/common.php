@@ -1,4 +1,5 @@
 <?php
+
 return [
     'path' => [
         'upload' => '/uploads',
@@ -33,5 +34,6 @@ return [
             'motor' => 2,
             'bike' => 3,
         ]
-    ]
+    ],
+    'paging_number' => 10,
 ];

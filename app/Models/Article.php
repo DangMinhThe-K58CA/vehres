@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Article extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'type',
         'title',
@@ -14,6 +17,7 @@ class Article extends Model
         'user_id',
         'avatar',
     ];
+
     /**
      * Get all visits.
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
@@ -48,6 +52,6 @@ class Article extends Model
      */
     public function getAvatarAttribute($value)
     {
-        return config('common.path.image') . $value;
+        return config('common.path.image') . '/' . $value;
     }
 }

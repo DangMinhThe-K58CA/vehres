@@ -5,10 +5,12 @@ namespace App\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -62,6 +64,15 @@ class User extends Authenticatable
         return $this->hasMany(Bookmark::class);
     }
 
+
+    public function getSpecificBookmark($bookmarkableType, $bookmarkableId)
+    {
+        $bookmark = $this->bookmarks()->where('bookmarkable_type', $bookmarkableType)
+                        ->where('bookmarkable_id', $bookmarkableId)
+                        ->first();
+
+        return $bookmark;
+    }
     /**
      * Accessor for avatar full path.
      * @param $value
@@ -69,7 +80,7 @@ class User extends Authenticatable
      */
     public function getAvatarAttribute($value)
     {
-        return config('common.path.image') . $value;
+        return config('common.path.image') . '/' . $value;
     }
 
     /**

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Garage extends Model
 {
     use SoftDeletes;
-
+    
     protected $fillable = [
         'name',
         'short_description',
@@ -88,9 +88,18 @@ class Garage extends Model
     public function ratingByCurrentAuth()
     {
         if (Auth::check()) {
-            return $this->ratings()->where('user_id', Auth::user()->id);
+            return $this->ratings()->where('user_id', Auth::user()->id)->first();
         }
         return null;
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function getRatingBySpecificUser($id)
+    {
+        return $this->ratings()->where('user_id', $id)->first();
     }
     /**
      * Get all services.

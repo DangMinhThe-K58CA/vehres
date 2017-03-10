@@ -3,10 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Bookmark extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = ['user_id', 'bookmarkable_type', 'bookmarkable_id'];
+
     /**
      * Get all models owning.
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo

@@ -2,7 +2,8 @@
 
 namespace App\Http\Requests;
 
-class GettingGarageRequest extends BaseApiRequest
+
+class GettingCommentsRequest extends BaseApiRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -12,8 +13,8 @@ class GettingGarageRequest extends BaseApiRequest
     public function rules()
     {
         return [
-            'options' => 'required',
-            'curPos' => 'required',
+            'commentable_id' => 'required|numeric|min:1',
+            'commentable_type' => 'required',
         ];
     }
 }

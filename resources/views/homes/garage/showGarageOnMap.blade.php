@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('css')
-<link href= {{ asset("/css/homes/index.css") }} rel="stylesheet">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/3/w3.css">
+    <link href= {{ asset("/css/homes/index.css") }} rel="stylesheet">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/3/w3.css">
 @endsection
 @section('content')
     <div class="col-sm-12">
@@ -10,10 +10,10 @@
             </div>
         </div>
 
-        <div id="main">
+        <div id="main" data-garage="{{ json_encode([$garage]) }}">
             <div class="container">
                 <div class="iframe-container">
-                    <div id="homeMap"></div>
+                    <div id="viewGarageOnMap"></div>
                 </div>
             </div>
         </div>
@@ -21,5 +21,5 @@
 @endsection
 
 @section('javascript')
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDMJ2EHO5n2HJ1Pwxi2hflbjIoxKXegIyc&callback=initMaps"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDMJ2EHO5n2HJ1Pwxi2hflbjIoxKXegIyc&callback=initGarageOnMaps"></script>
 @endsection

@@ -166,8 +166,9 @@ return [
         /*
          * Package Service Providers...
          */
+        Lord\Laroute\LarouteServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,
 
-        //
 
         /*
          * Application Service Providers...
@@ -179,12 +180,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\RepositoryServiceProvider::class,
         App\Providers\HelperServiceProvider::class,
-        Collective\Html\HtmlServiceProvider::class,
-        
-        /*
-         * Laroute.
-         */
-        Lord\Laroute\LarouteServiceProvider::class,
+
     ],
 
     /*

@@ -1,4 +1,5 @@
 <?php
+
 return [
 
     /*
@@ -22,10 +23,10 @@ return [
      *
      * Set the Application URL in config/app.php
      */
-    'absolute' => false,
+    'absolute' => true,
 
     /*
-     * The Filter Methode
+     * The Filter Method
      *
      * 'all' => All routes except "'laroute' => false"
      * 'only' => Only "'laroute' => true" routes
@@ -34,7 +35,7 @@ return [
     'filter' => 'all',
 
     /*
-     * Action Namespace
+     * Controller Namespace
      *
      * Set here your controller namespace (see RouteServiceProvider -> $namespace) for cleaner action calls
      * e.g. 'App\Http\Controllers'
@@ -47,7 +48,7 @@ return [
      * with them.
      */
     'template' => 'vendor/lord/laroute/src/templates/laroute.js',
-
+    
     /*
      * Appends a prefix to URLs. By default the prefix is an empty string.
     *

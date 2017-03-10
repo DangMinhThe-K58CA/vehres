@@ -6,12 +6,22 @@
  */
 import Profile from './homes/user/Profile';
 import HomeMaps from './homes/HomeMaps';
+import Bookmark from './homes/Bookmark';
+import Visit from './homes/Visit';
 
 require('./bootstrap');
 
+window.assetUrl = $('#app').data('asset-url').slice(0, -1);
+
 window.initMaps = function () {
     window.homeMaps = new HomeMaps(this);
-    window.homeMaps.init();
+    window.homeMaps.init('homeMap', null);
+}
+
+window.initGarageOnMaps = function () {
+    window.homeMaps = new HomeMaps(this);
+    var garage = $('#main').data('garage');
+    window.homeMaps.init('viewGarageOnMap', garage);
 }
 
 class App
@@ -26,6 +36,12 @@ class App
 
         var profile = new Profile(this);
         profile.init();
+
+        var bookmark = new Bookmark(this);
+        bookmark.init();
+
+        var visit = new Visit(this);
+        visit.init();
     }
 
     setup() {

@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
-class GettingGarageRequest extends BaseApiRequest
+use Illuminate\Foundation\Http\FormRequest;
+
+class SpecificGarageRequest extends BaseApiRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -12,8 +14,7 @@ class GettingGarageRequest extends BaseApiRequest
     public function rules()
     {
         return [
-            'options' => 'required',
-            'curPos' => 'required',
+            'id' => 'required|numeric|min:1',
         ];
     }
 }

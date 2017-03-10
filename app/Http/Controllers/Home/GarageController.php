@@ -3,54 +3,135 @@
 namespace App\Http\Controllers\Home;
 
 use App\Http\Requests\GettingGarageRequest;
+use App\Http\Requests\SpecificGarageRequest;
+use App\Repositories\Contracts\VisitRepositoryInterface;
+use App\Repositories\Criteria\HomeGarageCriteria;
 use App\Repositories\Eloquent\GarageRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Repositories\Criteria\WhereConditionCriteria;
 use App\Repositories\Criteria\NearestGaragesCriteria;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 
 class GarageController extends Controller
 {
 
     const LENGTH_OF_DECIMAL_DEGREE = 111.32;
 
+    private $response;
     private $garageRepository;
     
     public function __construct(GarageRepository $garageRepository)
     {
+        $this->response = [
+            'status' => 1,
+            'data' => [],
+        ];
+
         $this->garageRepository = $garageRepository;
+        $this->garageRepository->pushCriteria(new HomeGarageCriteria());
+    }
+
+    public function getInitParameters(Request $request) {
+        if ($request->session()->has('getGaragesOptions')) {
+            $givenConditions = $request->session()->get('getGaragesOptions');
+        } else {
+            $givenConditions = ['type' => 2, 'radius' => 1];
+            $request->session()->put('getGaragesOptions', $givenConditions);
+        }
+
+        return [
+            'status' => 1,
+            'data' => $givenConditions,
+        ];
     }
     
     public function getGarages(GettingGarageRequest $request)
     {
+//        var_dump($request->session()->get('getGaragesOptions'));
+//        dd($request->all());
         $curPos = $request->input('curPos');
         $options =  $request->input('options');
         $garages = [];
 
-        if (array_key_exists('radius', $options)) {
-            $rad = $options['radius'];
-            $criteria = new NearestGaragesCriteria($curPos, $rad);
-            $this->garageRepository->pushCriteria($criteria);
+        $garageFilterOpts = [];
 
-            $results = $this->garageRepository->all(['id', 'lat', 'lng','name', 'short_description', 'type','avatar']);
-            
-            foreach ($results as $garage) {
-                if ($this->isNear($curPos, $garage, $rad)) {
-                    array_push($garages, $garage);
-                }
+        if ($request->session()->has('getGaragesOptions')) {
+            foreach (array_keys($options) as $key) {
+                $garageFilterOpts[$key] = $options[$key];
+                $request->session()->put('getGaragesOptions.' . $key, $options[$key]);
+            }
+        } else {
+            $request->session()->put('getGaragesOptions', $garageFilterOpts);
+        }
+
+        $givenConditions = $request->session()->get('getGaragesOptions');
+
+//        dd($givenConditions);
+        foreach ($givenConditions as $key => $value) {
+
+            if ($key !== 'radius') {
+//                dd($key . '-' . $value);
+                $tmpCriteria = new WhereConditionCriteria($key, '=', $value);
+                $this->garageRepository->pushCriteria($tmpCriteria);
+//                dd($results = $this->garageRepository->all());
+            } else {
+                $rad = $givenConditions['radius'];
+                $criteria = new NearestGaragesCriteria($curPos, $rad);
+                $this->garageRepository->pushCriteria($criteria);
             }
         }
 
-        $response = [
-            'status' => 1,
-            'data' => $garages,
-        ];
+        $results = $this->garageRepository->all(['id', 'lat', 'lng','name', 'rating', 'short_description', 'type','avatar']);
 
-        return \Response::json($response);
+        foreach ($results as $garage) {
+            if ($this->isNear($curPos, $garage, $rad)) {
+                array_push($garages, $garage);
+            }
+        }
+        $this->response['data'] = $garages;
+
+        return \Response::json($this->response);
     }
 
-    public function getSpecificGarage(Request $request)
+    public function getSpecificGarage(SpecificGarageRequest $request)
     {
-//        dd($request->input('id'));
+        $id = $request->input('id');
+        $garage = $this->garageRepository->find($id);
+        $comments = $garage->comments;
+
+        $ratings = $garage->ratings;
+        $ratingStatistic = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        $ratingTimes = sizeof($ratings);
+        foreach ($ratings as $rating) {
+            if (isset($ratingStatistic[$rating->score])) {
+                $ratingStatistic[$rating->score] = $ratingStatistic[$rating->score] + 1;
+            } else {
+                $ratingStatistic[$rating->score] = 1;
+            }
+        }
+
+        $visitRepo = App::make(VisitRepositoryInterface::class);
+
+        $newVisitData = [
+            'user_id' => Auth::user()->id,
+            'visitable_id' => $garage->id,
+            'visitable_type' => get_class($garage),
+            'is_latest' => 1,
+        ];
+
+        $curLatest = $visitRepo->findWhere($newVisitData)->first();
+
+        if ($curLatest !== null) {
+            $visitRepo->update(['is_latest' => 0], $curLatest->id);
+        }
+
+        $visitRepo->create($newVisitData);
+        
+        $bookmarked = Auth::user()->getSpecificBookmark(get_class($garage), $garage->id);
+
+        return view('homes.garage.garageDetail', ['garage' => $garage, 'bookmarked' => $bookmarked, 'ratingTimes' => $ratingTimes, 'comments' => $comments, 'ratingStatistic' => $ratingStatistic]);
     }
 
     /**
