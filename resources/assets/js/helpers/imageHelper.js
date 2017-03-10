@@ -1,4 +1,4 @@
-function previewImage(input, previewFieldId) {
+export default function previewImage(input, previewFieldId) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
         reader.onload = function (e) {

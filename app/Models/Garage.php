@@ -32,8 +32,9 @@ class Garage extends Model
      */
     public function getAvatarAttribute($value)
     {
-        return config('common.path.image') . '/' .$value;
+        return config('common.path.image') . '/' . $value;
     }
+
     /**
      * Get all visits.
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
@@ -53,7 +54,7 @@ class Garage extends Model
     }
 
     /**
-     *
+     * 
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function bookmarks()

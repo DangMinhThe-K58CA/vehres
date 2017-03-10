@@ -180,6 +180,11 @@ return [
         App\Providers\RepositoryServiceProvider::class,
         App\Providers\HelperServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
+        
+        /*
+         * Laroute.
+         */
+        Lord\Laroute\LarouteServiceProvider::class,
     ],
 
     /*
