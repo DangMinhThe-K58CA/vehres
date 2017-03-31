@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Home;
 
 use App\Http\Requests\GettingGarageRequest;
 use App\Http\Requests\SpecificGarageRequest;
+use App\Repositories\Contracts\GarageRepositoryInterface;
 use App\Repositories\Contracts\VisitRepositoryInterface;
 use App\Repositories\Criteria\HomeGarageCriteria;
 use App\Repositories\Eloquent\GarageRepository;
@@ -22,7 +23,7 @@ class GarageController extends Controller
     private $response;
     private $garageRepository;
     
-    public function __construct(GarageRepository $garageRepository)
+    public function __construct(GarageRepositoryInterface $garageRepository)
     {
         $this->response = [
             'status' => 1,

@@ -1,3 +1,5 @@
+import Search from './Search';
+
 export default class Bookmark
 {
     constructor(app) {
@@ -35,6 +37,12 @@ export default class Bookmark
                         });
                     } else {
                         $(viewFieldId).html(response);
+                        var searchBox = new Search(self);
+
+                        var displayFields = [];
+                        displayFields['App\\Models\\Article'] = 'bookmarkedArticles';
+                        displayFields[ 'App\\Models\\Garage'] = 'bookmarkedGarages';
+                        searchBox.init(displayFields);
                     }
                 }
             });

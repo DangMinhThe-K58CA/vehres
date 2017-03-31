@@ -7,5 +7,5 @@ namespace App\Repositories\Contracts;
  */
 interface VisitRepositoryInterface extends RepositoryInterface
 {
-    //
+    public function searchOnInstance($key, $visitableType);
 }

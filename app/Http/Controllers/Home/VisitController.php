@@ -39,8 +39,20 @@ class VisitController extends Controller
             'user_id' => Auth::user()->id,
         ]);
 
+        $searchOptions = [
+            'Garage' => get_class(new Garage()),
+            'Article' => get_class(new Article()),
+        ];
+        $searchParamters = [
+            'url' => action('Home\BookmarkController@search'),
+        ];
         $visitsList = ['garage' => $garageViews, 'article' => $articleViews];
-        return view('homes.visit.index', ['visitsList' => $visitsList]);
+
+        return view('homes.visit.index', [
+            'visitsList' => $visitsList,
+            'searchOptions' => $searchOptions,
+            'searchParamters' => $searchParamters,
+        ]);
     }
 
     /**
@@ -86,6 +98,19 @@ class VisitController extends Controller
         }
     }
 
+    /**
+     * @param VisitRepositoryInterface $repo
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function search(VisitRepositoryInterface $repo, Request $request)
+    {
+        $visitableType = $request->input('option');
+        $searchKey = $request->input('searchKey');
+        $results = $repo->searchOnInstance($searchKey, $visitableType);
+
+        return view('homes.visit.visits', ['visits' => $results]);
+    }
     /**
      * Show the form for editing the specified resource.
      *

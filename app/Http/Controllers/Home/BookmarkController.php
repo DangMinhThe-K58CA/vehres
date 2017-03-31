@@ -37,8 +37,35 @@ class BookmarkController extends Controller
             'bookmarkable_type' => get_class(new Article()), 'user_id' => Auth::user()->id
         ]);
 
+        $searchOptions = [
+            'Garage' => get_class(new Garage()),
+            'Article' => get_class(new Article()),
+        ];
         $bookmarksList = ['garage' => $garageBookmarks, 'article' => $articleBookmarks];
-        return view('homes.bookmark.index', ['bookmarksList' => $bookmarksList]);
+        $searchParamters = [
+            'url' => action('Home\BookmarkController@search'),
+        ];
+
+        return view('homes.bookmark.index', [
+            'bookmarksList' => $bookmarksList,
+            'searchOptions' => $searchOptions,
+            'searchParamters' => $searchParamters,
+        ]);
+    }
+
+    /**
+     * @param BookmarkRepositoryInterface $repo
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function search(BookmarkRepositoryInterface $repo, Request $request)
+    {
+        $bookmarkableType = $request->input('option');
+        $searchKey = $request->input('searchKey');
+
+        $results = $repo->searchOnInstance($searchKey, $bookmarkableType);
+
+        return view('homes.bookmark.bookmarks', ['bookmarks' => $results]);
     }
 
     /**

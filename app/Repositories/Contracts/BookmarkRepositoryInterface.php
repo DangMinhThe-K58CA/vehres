@@ -7,5 +7,5 @@ namespace App\Repositories\Contracts;
  */
 interface BookmarkRepositoryInterface extends RepositoryInterface
 {
-    //
+    public function searchOnInstance($key, $bookmarkableType);
 }

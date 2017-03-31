@@ -3,3 +3,4 @@
 <link href= {{ asset("/bowers/font-awesome/css/font-awesome.min.css") }} rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{{ asset('/bowers/bootstrap/dist/css/bootstrap.min.css') }}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.2/css/bootstrap-slider.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">

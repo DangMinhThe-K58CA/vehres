@@ -25,6 +25,9 @@ return [
 
     'garage' => [
         'default_avatar' => 'default.jpg',
+        'comment' => [
+          'paginate' => 5,
+        ],
         'status' => [
             'activated' => 1,
             'unactivated' => 0,

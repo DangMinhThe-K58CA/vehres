@@ -1,3 +1,5 @@
+import Search from './Search';
+
 export default class Visit
 {
     constructor(app) {
@@ -29,6 +31,12 @@ export default class Visit
                         });
                     } else {
                         $(viewFieldId).html(response);
+
+                        var searchBox = new Search(self);
+                        var displayFields = [];
+                        displayFields['App\\Models\\Article'] = 'visitedArticles';
+                        displayFields[ 'App\\Models\\Garage'] = 'visitedGarages';
+                        searchBox.init(displayFields);
                     }
                 }
             });

@@ -23,17 +23,17 @@ elixir((mix) => {
     // mix.copy('resources/assets/bowers/font-awesome/fonts/', 'public/bowers/font-awesome/fonts/');
     // mix.copy('resources/assets/bowers/jquery/dist/jquery.min.js', 'public/bowers/jquery/dist/jquery.min.js')
     //    .copy('resources/assets/bowers/bootstrap/dist/css/bootstrap.min.css', 'public/bowers/bootstrap/dist/css/bootstrap.min.css')
-        .sass('homes/index.scss', 'public/css/homes/index.css');
+    //     .sass('homes/index.scss', 'public/css/homes/index.css');
     // mix.scripts('helpers/*.js', 'public/js/helpers/helpers.js');
     // mix.copy('resources/assets/bowers/font-awesome/css/font-awesome.min.css', 'public/bowers/font-awesome/css/font-awesome.min.css');
     // mix.copy('resources/assets/bowers/font-awesome/fonts/', 'public/bowers/font-awesome/fonts/');
-       .sass('style.scss')
-       .scripts('layoutAdmin.js');
-    mix.scripts('helpers/*.js', 'public/js/helpers/helpers.js');
-    mix.copy('resources/assets/bowers/font-awesome/css/font-awesome.min.css', 'public/bowers/font-awesome/css/font-awesome.min.css');
-    mix.copy('resources/assets/bowers/font-awesome/fonts/', 'public/bowers/font-awesome/fonts/');
-    mix.copy('resources/assets/bowers/jquery/dist/jquery.min.js', 'public/bowers/jquery/dist/jquery.min.js')
-       .copy('resources/assets/bowers/bootstrap/', 'public/bowers/bootstrap/')
+    //    .sass('style.scss')
+    //    .scripts('layoutAdmin.js');
+    // mix.scripts('helpers/*.js', 'public/js/helpers/helpers.js');
+    // mix.copy('resources/assets/bowers/font-awesome/css/font-awesome.min.css', 'public/bowers/font-awesome/css/font-awesome.min.css');
+    // mix.copy('resources/assets/bowers/font-awesome/fonts/', 'public/bowers/font-awesome/fonts/');
+    // mix.copy('resources/assets/bowers/jquery/dist/jquery.min.js', 'public/bowers/jquery/dist/jquery.min.js')
+    //    .copy('resources/assets/bowers/bootstrap/', 'public/bowers/bootstrap/')
     //    .sass('style.scss')
     //    .scripts('layoutAdmin.js');
     // mix.scripts('helpers/*.js', 'public/js/helpers/helpers.js');
@@ -41,7 +41,8 @@ elixir((mix) => {
     // mix.copy('resources/assets/bowers/font-awesome/fonts/', 'public/bowers/font-awesome/fonts/');
     // mix.copy('resources/assets/bowers/jquery/dist/jquery.min.js', 'public/bowers/jquery/dist/jquery.min.js')
     //    .copy('resources/assets/bowers/bootstrap/dist/css/bootstrap.min.css', 'public/bowers/bootstrap/dist/css/bootstrap.min.css')
-        .sass('homes/index.scss', 'public/css/homes/index.css');
+        .sass('homes/index.scss', 'public/css/homes/index.css')
+        .sass('homes/myWorld.scss', 'public/css/homes/myWorld.css');
     // mix.scripts('helpers/*.js', 'public/js/helpers/helpers.js');
     // mix.copy('resources/assets/bowers/font-awesome/css/font-awesome.min.css', 'public/bowers/font-awesome/css/font-awesome.min.css');
     // mix.copy('resources/assets/bowers/font-awesome/fonts/', 'public/bowers/font-awesome/fonts/');

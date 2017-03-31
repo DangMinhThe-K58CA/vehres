@@ -56,9 +56,11 @@ Route::group(['namespace' => 'Home', 'prefix' => 'home', 'middleware' => ['custo
     Route::resource('/comments', 'CommentController');
 
     //Route for home page bookmark.
+    Route::get('/bookmarks/search', 'BookmarkController@search');
     Route::resource('/bookmarks', 'BookmarkController');
 
     //Route for home page visit.
+    Route::get('/visits/search', 'VisitController@search');
     Route::resource('/visits', 'VisitController');
 });
 

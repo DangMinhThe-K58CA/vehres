@@ -23,4 +23,35 @@ class VisitRepository extends Repository implements VisitRepositoryInterface
     {
         return Visit::class;
     }
+
+    /**
+     * @param $key
+     * @param $visitableType
+     * @return mixed
+     */
+    public function searchOnInstance($key, $visitableType)
+    {
+        $newQuery = $this->model->query();
+        if ($visitableType === get_class(new Garage())) {
+            $newQuery->leftjoin('garages', 'garages.id', 'bookmarks.visitable_id')
+                ->where('bookmarks.user_id', Auth::user()->id)
+                ->where('bookmarks.visitable_type', $visitableType)
+                ->where(function ($query) use ($key) {
+                    $query->where('garages.name', 'like', '%' . $key . '%')
+                        ->orWhere('garages.short_description', 'like', '%' . $key . '%');
+                })
+                ->select('bookmarks.*');
+        } else {
+            $newQuery->leftjoin('articles', 'articles.id', 'bookmarks.visitable_id')
+                ->where('bookmarks.user_id', Auth::user()->id)
+                ->where('bookmarks.visitable_type', $visitableType)
+                ->where(function ($query) use ($key) {
+                    $query->where('articles.title', 'like', '%' . $key . '%')
+                        ->orWhere('articles.short_description', 'like', '%' . $key . '%');
+                })
+                ->select('bookmarks.*');
+        }
+
+        return $newQuery->get();
+    }
 }
