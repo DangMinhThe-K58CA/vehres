@@ -38,5 +38,16 @@ return [
             'bike' => 3,
         ]
     ],
+
+    'article' => [
+        'default_avatar' => 'default.jpg',
+        'comment' => [
+            'paginate' => 10,
+        ],
+        'status' => [
+            'activated' => 1,
+            'unactivated' => 0,
+        ],
+    ],
     'paging_number' => 10,
 ];

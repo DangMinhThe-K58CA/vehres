@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Home;
 
 use App\Models\Article;
 use App\Models\Garage;
+use App\Models\Visit;
+use App\Repositories\Contracts\ArticleRepositoryInterface;
 use App\Repositories\Contracts\GarageRepositoryInterface;
 use App\Repositories\Contracts\VisitRepositoryInterface;
 use Illuminate\Http\Request;
@@ -44,7 +46,7 @@ class VisitController extends Controller
             'Article' => get_class(new Article()),
         ];
         $searchParamters = [
-            'url' => action('Home\BookmarkController@search'),
+            'url' => action('Home\VisitController@search'),
         ];
         $visitsList = ['garage' => $garageViews, 'article' => $articleViews];
 
@@ -93,8 +95,10 @@ class VisitController extends Controller
         }
 
         if ($visit->visitable_type === get_class(new Article())) {
+            $articleRepo = App::make(ArticleRepositoryInterface::class);
+            $article = $articleRepo->find($visit->visitable_id);
 
-            return $visit->visitable->title;
+            return redirect()->to(action('Home\ArticleController@getSpecificArticle', ['id' => $article->id]));
         }
     }
 
@@ -142,9 +146,9 @@ class VisitController extends Controller
      */
     public function destroy($id)
     {
-        $deletedBm = $this->repository->find($id);
         $this->repository->delete($id);
+        $deletedVisit = Visit::withTrashed()->where('id', $id)->first();
 
-        return \Response::json(['status' => 1, 'data' => $deletedBm]);
+        return \Response::json(['status' => 1, 'data' => $deletedVisit]);
     }
 }

@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Home;
 
 use App\Http\Requests\AddingBookmarkRequest;
 use App\Models\Article;
+use App\Models\Bookmark;
 use App\Models\Garage;
+use App\Repositories\Contracts\ArticleRepositoryInterface;
 use App\Repositories\Contracts\BookmarkRepositoryInterface;
 use App\Repositories\Contracts\GarageRepositoryInterface;
 use Illuminate\Http\Request;
@@ -79,10 +81,8 @@ class BookmarkController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param AddingBookmarkRequest $request
+     * @return mixed
      */
     public function store(AddingBookmarkRequest $request)
     {
@@ -110,8 +110,10 @@ class BookmarkController extends Controller
         }
 
         if ($bookmark->bookmarkable_type === get_class(new Article())) {
+            $articleRepo = App::make(ArticleRepositoryInterface::class);
+            $article = $articleRepo->find($bookmark->bookmarkable_id);
 
-            return $bookmark->bookmarkable->title;
+            return redirect()->to(action('Home\ArticleController@getSpecificArticle', ['id' => $article->id]));
         }
     }
 
@@ -146,8 +148,13 @@ class BookmarkController extends Controller
      */
     public function destroy($id)
     {
-        $deletedBm = $this->repository->find($id);
+//        $deletedBm = $this->repository->find($id);
         $this->repository->delete($id);
+
+        $deletedBm = Bookmark::withTrashed()->where('id', $id)->first();
+//        $deletedBm->delete();
+//        dd($deletedBm);
+//        $this->repository->delete($id);
 
         return \Response::json(['status' => 1, 'data' => $deletedBm]);
     }

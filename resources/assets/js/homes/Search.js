@@ -43,7 +43,6 @@ export default class Search
                     data: {'searchKey' : searchKey, 'option' : option},
                     success: function (response) {
                         var displayField = displayFields[option];
-                        console.log(displayField);
                         $('#' + displayField).html(response);
                     }
                 });

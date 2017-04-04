@@ -12,14 +12,16 @@ export default class Bookmark
         var self = this;
 
         $(document).on('click', '.addBookmarkBtn', function (event) {
-            var btn = $(event.currentTarget);
+            self.btn = $(event.currentTarget);
 
-            self.create(btn);
+            self.create();
         });
 
         $(document).on('click', '.deleteBookmarkBtn', function (event) {
-            var btn = $(event.currentTarget);
-            self.destroy(btn);
+            self.btn = $(event.currentTarget);
+            var bookmarkedId = self.btn.attr('data-bookmark-id');
+
+            self.destroy(bookmarkedId);
         });
 
         $(document).on('click', '#viewBookmarkBtn', function (event) {
@@ -53,11 +55,12 @@ export default class Bookmark
         });
     }
 
-    create(btn) {
+    create() {
         const $ = this.jQuery;
+        var self = this;
 
-        var bookmarkableId = btn.data('instance-id');
-        var bookmarkableType = btn.data('bookmarkable-type');
+        var bookmarkableId = self.btn.attr('data-instance-id');
+        var bookmarkableType = self.btn.attr('data-bookmarkable-type');
 
         $.ajax({
             url: laroute.action('App\Http\Controllers\Home\BookmarkController@store'),
@@ -70,25 +73,26 @@ export default class Bookmark
                         alert(error.message);
                     });
                 } else {
-                    if (btn.data('bookmark-option') === 'bookmarkedFromVisit') {
-                        btn.removeClass('addBookmarkBtn');
-                        btn.attr('title', 'Bookmarked');
-                        btn.html('<i class="fa fa-bookmark" aria-hidden="true" style="color:#eff050; font-size:18px"></i>');
+                    if (self.btn.attr('data-bookmark-option') === 'bookmarkedFromVisit') {
+                        self.btn.removeClass('addBookmarkBtn');
+                        self.btn.attr('title', 'Bookmarked');
+                        self.btn.html('<i class="fa fa-bookmark" aria-hidden="true" style="color:#eff050; font-size:18px"></i>');
                     } else {
                         var bookmark = response.data;
-                        btn.removeClass('addBookmarkBtn').addClass('deleteBookmarkBtn');
-                        btn.attr('title', 'Bookmarked');
-                        btn.attr('data-bookmark-id', bookmark.id);
-                        btn.html('<i class="fa fa-bookmark" aria-hidden="true" style="color:#eff050; font-size:26px"></i>');
+                        self.btn.removeClass('addBookmarkBtn').addClass('deleteBookmarkBtn');
+                        self.btn.attr('title', 'Bookmarked');
+                        self.btn.attr('data-bookmark-id', bookmark.id);
+                        self.btn.attr('data-bookmark-option', 'unbookmark');
+                        self.btn.html('<i class="fa fa-bookmark" aria-hidden="true" style="color:#eff050; font-size:26px"></i>');
                     }
                 }
             }
         });
     }
 
-    destroy(btn) {
+    destroy(bookmarkedId) {
         const $ = this.jQuery;
-        var bookmarkedId = btn.data('bookmark-id');
+        var self = this;
 
         $.ajax({
             url: laroute.action('App\Http\Controllers\Home\BookmarkController@destroy', {'bookmark' : bookmarkedId}),
@@ -101,18 +105,19 @@ export default class Bookmark
                         alert(error.message);
                     });
                 } else {
-                    if (btn.data('bookmark-option') === 'unbookmark') {
+                    if (self.btn.attr('data-bookmark-option') === 'unbookmark') {
                         var bookmark = response.data;
-                        btn.removeClass('deleteBookmarkBtn').addClass('addBookmarkBtn');
-                        btn.attr('title', 'Add to bookmark');
-                        btn.removeAttr('data-bookmark-id');
-                        btn.attr('data-instance-id', bookmark.bookmarkable_id);
-                        btn.attr('data-bookmarkable-type', bookmark.bookmarkable_type);
-                        btn.html('<i class="fa fa-bookmark-o" aria-hidden="true" style="color:rgba(75, 214, 14, 1); font-size:26px"></i>');
+                        self.btn.removeClass('deleteBookmarkBtn').addClass('addBookmarkBtn');
+                        self.btn.attr('title', 'Add to bookmark');
+                        self.btn.removeAttr('data-bookmark-id');
+                        self.btn.removeAttr('data-bookmark-option');
+                        self.btn.attr('data-instance-id', bookmark.bookmarkable_id);
+                        self.btn.attr('data-bookmarkable-type', bookmark.bookmarkable_type);
+                        self.btn.html('<i class="fa fa-bookmark-o" aria-hidden="true" style="color:rgba(75, 214, 14, 1); font-size:26px"></i>');
                     }
 
-                    if (btn.data('bookmark-option') === 'deleteBookmark') {
-                        btn.closest('div').remove();
+                    if (self.btn.attr('data-bookmark-option') === 'deleteBookmark') {
+                        self.btn.closest('div').remove();
                     }
 
                 }

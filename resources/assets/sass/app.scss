@@ -39,3 +39,25 @@ body {
     left: -9999px;
   }
 }
+
+a:link {
+  text-decoration:none;
+  color: #2830c6;
+}
+
+/* visited link */
+a:visited {
+  color: green;
+}
+
+/* mouse over link */
+a:hover {
+  color: hotpink;
+  text-decoration:none;
+}
+
+/* selected link */
+a:active {
+  color: blue;
+}
+

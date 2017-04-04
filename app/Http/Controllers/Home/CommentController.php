@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Home;
 use App\Http\Requests\CreatingCommentRequest;
 use App\Http\Requests\GettingCommentsRequest;
 use App\Http\Requests\UpdatingCommentRequest;
+use App\Models\Article;
 use App\Models\Comment;
 use App\Models\Garage;
+use App\Repositories\Contracts\ArticleRepositoryInterface;
 use App\Repositories\Contracts\CommentRepositoryInterface;
 use App\Repositories\Contracts\GarageRepositoryInterface;
 use App\Http\Controllers\Controller;
@@ -35,6 +37,13 @@ class CommentController extends Controller
 
             return $garage;
         }
+
+        if ($commentableType === 'App\Models\Article') {
+            $repo = App::make(ArticleRepositoryInterface::class);
+            $article = $repo->find($commentable_id);
+
+            return $article;
+        }
     }
 
     /**
@@ -51,6 +60,12 @@ class CommentController extends Controller
 
             return view('homes.comment.comments', ['instance' => $instance, 'comments' => $comments]);
         }
+
+        if ($instance instanceof Article) {
+            $comments = $instance->comments()->orderBy('created_at', 'desc')->paginate(config('common.article.comment.paginate'));
+
+            return view('homes.comment.comments', ['instance' => $instance, 'comments' => $comments]);
+        }
     }
 
     /**
@@ -64,10 +79,8 @@ class CommentController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param CreatingCommentRequest $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function store(CreatingCommentRequest $request)
     {
@@ -76,6 +89,14 @@ class CommentController extends Controller
         $instance = $this->getSpecificInstance($commentableType, $commentable_id);
 
         if ($instance instanceof Garage) {
+            $newCmtData = $request->all();
+            $newCmtData['user_id'] = Auth::user()->id;
+            $newCmt = $this->commentRepository->create($newCmtData);
+
+            return view('homes.comment.comment', ['instance' => $instance, 'comment' => $newCmt]);
+        }
+
+        if ($instance instanceof Article) {
             $newCmtData = $request->all();
             $newCmtData['user_id'] = Auth::user()->id;
             $newCmt = $this->commentRepository->create($newCmtData);

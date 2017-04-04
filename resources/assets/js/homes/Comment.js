@@ -92,7 +92,7 @@ export default class Comment
                     var clientHeight = event.currentTarget.clientHeight;
                     var top = event.target.scrollTop;
 
-                    if (scrollHeight - top === clientHeight) {
+                    if (scrollHeight - top <= clientHeight) {
                         self.commentOffset += 1;
                         self.getByOffset(self.commentOffset);
                     }

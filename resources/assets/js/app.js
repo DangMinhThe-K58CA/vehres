@@ -8,6 +8,7 @@ import Profile from './homes/user/Profile';
 import HomeMaps from './homes/HomeMaps';
 import Bookmark from './homes/Bookmark';
 import Visit from './homes/Visit';
+import Article from './homes/article/Article';
 
 require('./bootstrap');
 
@@ -51,6 +52,12 @@ class App
                 $('.search-panel span#search_concept').text(concept);
                 $('.input-group #search_param').val(param);
             });
+        });
+
+        var self = this;
+        $('#showArticleField').ready(function () {
+            var article = new Article(self);
+            article.init();
         });
     }
 

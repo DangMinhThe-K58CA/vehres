@@ -52,6 +52,12 @@ Route::group(['namespace' => 'Home', 'prefix' => 'home', 'middleware' => ['custo
         Route::get('/view', 'GarageController@getSpecificGarage');
     });
 
+    //Route for home article.
+    Route::group(['prefix' => 'article'], function () {
+        Route::get('/getArticles', 'ArticleController@getArticle');
+        Route::get('/view', 'ArticleController@getSpecificArticle');
+    });
+
     //Route for home page comment.
     Route::resource('/comments', 'CommentController');
 
