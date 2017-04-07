@@ -16,6 +16,9 @@ require('laravel-elixir-vue-2');
 elixir((mix) => {
     mix.sass('app.scss')
        .webpack('app.js')
+       .sass('homes/welcome.scss', 'public/css/homes/');
+    mix.copy('resources/assets/bowers/wow/dist/wow.min.js', 'public/bowers/wow/wow.min.js');
+
     //    .sass('style.scss')
     //    .scripts('layoutAdmin.js');
     // mix.scripts('helpers/*.js', 'public/js/helpers/helpers.js');
@@ -42,7 +45,7 @@ elixir((mix) => {
     // mix.copy('resources/assets/bowers/jquery/dist/jquery.min.js', 'public/bowers/jquery/dist/jquery.min.js')
     //    .copy('resources/assets/bowers/bootstrap/dist/css/bootstrap.min.css', 'public/bowers/bootstrap/dist/css/bootstrap.min.css')
     //     .sass('homes/index.scss', 'public/css/homes/index.css')
-        // .sass('homes/myWorld.scss', 'public/css/homes/myWorld.css');
+        mix.sass('homes/myWorld.scss', 'public/css/homes/myWorld.css');
     mix.copy('resources/assets/sass/homes/article', 'public/css/homes/article');
     // mix.copy('resources/assets/sass/homes/fonts', 'public/css/homes/fonts');
     // mix.scripts('helpers/*.js', 'public/js/helpers/helpers.js');

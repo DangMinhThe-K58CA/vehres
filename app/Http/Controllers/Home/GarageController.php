@@ -34,6 +34,18 @@ class GarageController extends Controller
         $this->garageRepository->pushCriteria(new HomeGarageCriteria());
     }
 
+    public function show(SpecificGarageRequest $request)
+    {
+        $id = $request->input('id');
+        
+        $garage = $this->garageRepository->find($id);
+        if ($garage === null) {
+            abort(404, 'Requested garage\'s not found !');
+        }
+
+        return view('homes.garage.showGarageOnMap', ['garage' => $garage]);
+    }
+
     public function getInitParameters(Request $request) {
         if ($request->session()->has('getGaragesOptions')) {
             $givenConditions = $request->session()->get('getGaragesOptions');

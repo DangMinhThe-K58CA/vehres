@@ -23,7 +23,9 @@
     @include('layouts.alertMessage')
 
     <!-- Content -->
-    @yield('content')
+    <div class="pageContent">
+        @yield('content')
+    </div>
 
 </div>
 

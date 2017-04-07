@@ -105,8 +105,8 @@ class BookmarkController extends Controller
         if ($bookmark->bookmarkable_type === get_class(new Garage())) {
             $garageRepo = App::make(GarageRepositoryInterface::class);
             $garage = $garageRepo->find($bookmark->bookmarkable_id);
-            
-            return view('homes.garage.showGarageOnMap', ['garage' => $garage]);
+
+            return redirect()->to(action('Home\GarageController@show', ['id' => $garage->id]));
         }
 
         if ($bookmark->bookmarkable_type === get_class(new Article())) {

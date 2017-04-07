@@ -45,6 +45,10 @@ class Article extends Model
         return $this->morphMany(Bookmark::class, 'bookmarkable');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
     /**
      * Get full path for avatar.
      * @param $value

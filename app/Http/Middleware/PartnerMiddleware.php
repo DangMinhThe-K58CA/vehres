@@ -23,6 +23,6 @@ class PartnerMiddleware
             }
         }
 
-        return redirect()->action('Home\HomeController@index')->with('error', trans('layout.page_access_permission_not_allowed'), ['site' => 'partner site']);
+        return redirect()->action('Home\HomeController@index')->with('error', trans('layout.page_access_permission_not_allowed', ['site' => 'partner site']));
     }
 }

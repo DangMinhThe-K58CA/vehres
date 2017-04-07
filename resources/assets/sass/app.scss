@@ -61,3 +61,13 @@ a:active {
   color: blue;
 }
 
+.navbar-static-top {
+  position: fixed !important;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+}
+
+.pageContent {
+  margin-top: 5% !important;
+}

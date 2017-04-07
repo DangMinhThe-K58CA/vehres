@@ -10,9 +10,14 @@
             </button>
 
             <!-- Branding Image -->
-            <a class="navbar-brand" href="{{ route('home') }}">
+            <a href="{{ action('Home\HomeController@index') }}" title="Go to home maps">
+                <img src="{{ asset(config('common.home_map_icon')) }}" width="12%">
+            </a>
+
+            <a class="navbar-brand" href="{{ action('Home\HomeController@welcome') }}">
                 {{ config('app.name', 'Vehicle Rescuer') }}
             </a>
+
         </div>
 
         <div class="collapse navbar-collapse" id="app-navbar-collapse">

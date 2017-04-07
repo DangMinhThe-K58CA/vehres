@@ -7,5 +7,5 @@ namespace App\Repositories\Contracts;
  */
 interface  GarageRepositoryInterface extends RepositoryInterface
 {
-    //
+    public function getTopRated($numOfGarage);
 }

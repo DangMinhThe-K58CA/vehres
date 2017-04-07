@@ -17,4 +17,16 @@ class GarageRepository extends Repository implements GarageRepositoryInterface
     {
         return Garage::class;
     }
+
+
+    public function getTopRated($numOfGarage)
+    {
+        $this->applyCriteria();
+
+        $garages = $this->model->orderBy('rating', 'desc')
+                ->orderBy('created_at', 'asc')
+                ->limit($numOfGarage)->get();
+
+        return $garages;
+    }
 }

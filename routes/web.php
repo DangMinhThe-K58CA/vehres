@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'Home\HomeController@welcome');
 
 
 Auth::routes();
@@ -49,6 +47,7 @@ Route::group(['namespace' => 'Home', 'prefix' => 'home', 'middleware' => ['custo
     Route::group(['prefix' => 'garage'], function () {
         Route::get('/getInitParameters', 'GarageController@getInitParameters');
         Route::get('/getGarages', 'GarageController@getGarages');
+        Route::get('/show', 'GarageController@show');
         Route::get('/view', 'GarageController@getSpecificGarage');
     });
 
