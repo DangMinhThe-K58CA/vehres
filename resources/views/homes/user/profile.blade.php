@@ -68,7 +68,7 @@
                                             <form enctype="multipart/form-data" class="form-horizontal" role="form" method="POST" action="{{ action('Home\UserController@update', ['user' => 'update']) }}">
                                                 {!! csrf_field() !!}
                                                 {!! method_field('PATCH') !!}
-                                                <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+                                                <div class="form-group {{ $errors->has('name') ? ' has-error' : '' }}">
                                                     <label for="name" class="col-md-4 control-label">{{ trans('layout.name') }}</label>
 
                                                     <div class="col-md-6">

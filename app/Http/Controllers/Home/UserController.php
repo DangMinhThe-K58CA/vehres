@@ -39,10 +39,10 @@ class UserController extends Controller
      */
     public function changeAvatar($avatarName)
     {
-        $oldAvatar = public_path() . Auth::user()->avatar;
-        if (\File::exists($oldAvatar)) {
-            \File::delete($oldAvatar);
-        }
+//        $oldAvatar = public_path() . Auth::user()->avatar;
+//        if (\File::exists($oldAvatar)) {
+//            \File::delete($oldAvatar);
+//        }
 
         Auth::user()->avatar = $avatarName;
         return Auth::user()->save();

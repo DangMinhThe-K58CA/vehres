@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AdministrationUnit extends Model
 {
-    use SoftDeletes;
-
     protected $fillable = ['name', 'parent_id'];
 
     /**

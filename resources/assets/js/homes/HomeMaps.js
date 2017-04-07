@@ -547,6 +547,7 @@ export default class HomeMaps
     viewSpecificGarage(divMapId, viewedGarage) {
         var self = this;
         var garage = viewedGarage[0];
+        self.garages = viewedGarage;
         self.garageType = garage.type;
         self.initMaps(divMapId, self.curPos, 12, viewedGarage);
         self.showGarageDetail(self, garage.id);

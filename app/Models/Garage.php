@@ -23,6 +23,7 @@ class Garage extends Model
         'user_id',
         'working_time',
         'avatar',
+        'type',
     ];
 
     /**

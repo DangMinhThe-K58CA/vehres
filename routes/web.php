@@ -30,6 +30,11 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['cus
 //Partner routes.
 Route::group(['namespace' => 'Partner', 'prefix' => 'partner', 'middleware' => ['customizedAuth', 'partner']], function (){
     Route::get('/', 'PartnerController@index')->name('partner');
+
+    //Route for managing garages.
+    Route::post('updateLocation', 'GarageController@updateLocation');
+    Route::get('garageMaps', 'GarageController@garageMaps');
+    Route::resource('garages', 'GarageController');
 });
 
 //Home routes.
@@ -73,3 +78,6 @@ Route::group(['namespace' => 'Home', 'prefix' => 'home', 'middleware' => ['custo
 
 //Account activation route
 Route::get('/accountActive', 'Auth\VerifyAccountController@activateAccount');
+
+//Administration unit route
+Route::get('/getChildrenAdministrationUnit', 'AdministrationUnitController@getChildren');

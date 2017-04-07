@@ -55,7 +55,7 @@ class GaragesTableSeeder extends Seeder
             DB::table('garages')->insert([
                 'lat' => $lat,
                 'lng' => $lng,
-                'name' => 'Tiệm sửa xe ' . $faker->company,
+                'name' => 'Tiệm sửa xe ' . $faker->company,
                 'short_description' => $faker->catchPhrase,
                 'description' => $faker->paragraph,
                 'phone_number' => $faker->tollFreePhoneNumber,
