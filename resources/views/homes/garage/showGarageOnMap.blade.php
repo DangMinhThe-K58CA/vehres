@@ -6,7 +6,7 @@
 @section('content')
     <div class="col-sm-12">
         <div class="w3-sidebar w3-bar-block w3-card-2 w3-animate-left" style="display:none" id="mySidebar">
-            <div id="garageDetailContent">
+            <div id="mySidebarContent">
             </div>
         </div>
 

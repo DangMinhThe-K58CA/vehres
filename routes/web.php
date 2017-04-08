@@ -37,6 +37,7 @@ Route::group(['namespace' => 'Home', 'prefix' => 'home', 'middleware' => ['custo
 
     Route::get('/', 'HomeController@index')->name('home');
     Route::get('/myWorld', 'HomeController@myWorld');
+    Route::get('/getGaragesListView', 'HomeController@getGaragesListView');
 
     //Routes for home user.
     Route::resource('users', 'UserController', ['except' => [
@@ -49,6 +50,7 @@ Route::group(['namespace' => 'Home', 'prefix' => 'home', 'middleware' => ['custo
         Route::get('/getGarages', 'GarageController@getGarages');
         Route::get('/show', 'GarageController@show');
         Route::get('/view', 'GarageController@getSpecificGarage');
+        Route::post('/rate', 'GarageController@rate');
     });
 
     //Route for home article.

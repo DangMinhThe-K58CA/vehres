@@ -25,6 +25,11 @@ class HomeController extends Controller
         $this->garageRepo->pushCriteria($activatedCriteria);
     }
 
+    public function getGaragesListView()
+    {
+        return view('homes.components.garagesListView');
+    }
+    
     public function welcome(Request $request)
     {
         $data = [];

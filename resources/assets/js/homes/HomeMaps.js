@@ -1,4 +1,5 @@
 import GarageDetail from './../homes/garage/GarageDetail';
+import CenterControl from  './../CenterControl';
 
 export default class HomeMaps
 {
@@ -97,10 +98,11 @@ export default class HomeMaps
                         alert(error.message);
                     });
                 } else {
-                    $('#garageDetailContent').html(response);
-                    $('#garageDetailContent').css('overflow', 'hidden');
+                    $('#mySidebarContent').html(response);
+                    $('#mySidebarContent').css('overflow', 'hidden');
                     $('#closeDetailBtn').on('click', function () {
                         homeMaps.w3_close();
+                        homeMaps.displayGaragesList(homeMaps.garages);
                     });
                     
                     self.w3_open();
@@ -145,6 +147,7 @@ export default class HomeMaps
                     var tmpStar = '<i class="fa fa-star" style="font-size:15px;color:#eca33d"></i>';
                     ratingContent += tmpStar;
                     if (star == Math.floor(avgRating) && avgRating > Math.floor(avgRating)) {
+                        star ++;
                         var tmpHalfStar = '<i class="fa fa-star-half-full" style="font-size:15px;color:#eca33d"></i>';
                         ratingContent += tmpHalfStar;
                     }
@@ -195,7 +198,8 @@ export default class HomeMaps
 
             var marker = new google.maps.Marker({
                 position: tmpPos,
-                animation: google.maps.Animation.DROP
+                animation: google.maps.Animation.DROP,
+                customGarageId: garage.id
             });
 
             marker.setIcon(image);
@@ -223,7 +227,7 @@ export default class HomeMaps
             google.maps.event.addListener(marker, 'click', (function(marker, garageDetail, infowindow) {
                 return function() {
                     marker.setAnimation(google.maps.Animation.BOUNCE);
-                    infowindow.open(self.map,marker);
+                    infowindow.open(self.map, marker);
                     google.maps.event.clearListeners(marker, 'mouseout');
                 };
             })(marker, garageDetail, infowindow));
@@ -277,6 +281,57 @@ export default class HomeMaps
         marker.setMap(null);
     }
 
+    displayGaragesList(garages) {
+        var self = this;
+        const $ = self.jQuery;
+
+        $('#mySidebar').unbind('scroll');
+        $('#mySidebar').find('*').off();
+
+        $.ajax({
+            url: laroute.action('App\Http\Controllers\Home\HomeController@getGaragesListView'),
+            type: 'GET',
+            success: function(response) {
+                $('#mySidebarContent').html(response);
+                $('#mySidebarContent').css('overflow', 'hidden');
+                for (var i = 0; i < garages.length; i ++) {
+                    var tmpGarage = garages[i];
+                    var tmpRow = '<tr><td class="media garageInListChosenBtn" data-garage-id="' +
+                            tmpGarage.id + '" ><a href="javascript:void(0);">' +
+                            '<img class="media-photo img-circle" src="' + assetUrl + tmpGarage.avatar + '">' +
+                            tmpGarage.name + '</a></td></tr>';
+                    $('#garagesListField').append(tmpRow);
+                }
+
+                $('.garageInListChosenBtn').click(function (event) {
+                    var garageId = $(event.currentTarget).data('garage-id');
+                    for (var i = 0; i < homeMaps.markers.length; i ++) {
+                        var tmpMarker = homeMaps.markers[i];
+                        if (tmpMarker.customGarageId == garageId) {
+                            new google.maps.event.trigger(tmpMarker, 'click');
+                            homeMaps.map.panTo(tmpMarker.getPosition());
+                        }
+                    }
+                });
+
+                $('.media').click(function () {
+                    $(this).closest('tr').toggleClass('selected');
+                });
+
+                $('#closeGaragesListBtn').click(function () {
+                    homeMaps.w3_close();
+                });
+            }
+        });
+
+
+        // $('#closeDetailBtn').on('click', function () {
+        //     homeMaps.w3_close();
+        // });
+
+        self.w3_open();
+    }
+
     loadBy(options) {
         const $ = this.jQuery;
         var self = this;
@@ -293,15 +348,22 @@ export default class HomeMaps
                     });
                 } else {
                     var garages = response.data;
+                    self.garages = garages;
                     if (typeof(self.map) == 'undefined') {
                         self.initMaps('homeMap', self.curPos, 15, garages);
                     } else {
                         self.removeAllMarkers();
                         self.stickPositionsToMap(garages);
                     }
+
+                    self.displayGaragesList(garages);
                 }
             }
         });
+    }
+
+    centerControlCallback() {
+        return null;
     }
 
     initMaps(divMapId, curPos, zoom, positions) {
@@ -316,6 +378,28 @@ export default class HomeMaps
             center: curPos,
             zoom: zoom
         });
+
+        var viewGaragesList = document.createElement('div');
+        viewGaragesList.title = 'View garages list';
+        viewGaragesList.style.background = '#ffffff';
+        viewGaragesList.style.zIndex = 5;
+        viewGaragesList.style.opacity = '0.8';
+        viewGaragesList.style.filter = 'alpha(opacity=100)';
+        viewGaragesList.style.padding = '10px';
+        viewGaragesList.innerHTML = '<a href="javascript:void(0);"><i class="fa fa-bars" style="color:#fb9c56;font-size:36px"></i></a>';
+
+        $(viewGaragesList).click(function () {
+            homeMaps.w3_open();
+        });
+
+        self.map.controls[google.maps.ControlPosition.LEFT_TOP].push(viewGaragesList);
+
+        var centerControlDiv = document.createElement('div');
+        var centerControl = new CenterControl(centerControlDiv, self.map, curPos, self);
+        centerControl.init();
+
+        centerControlDiv.index = 1;
+        self.map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(centerControlDiv);
 
         var slider = document.createElement('div');
         slider.style.zIndex = 5;
