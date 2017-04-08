@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Home;
 
 use App\Http\Requests\GettingGarageRequest;
+use App\Http\Requests\RatingRequest;
 use App\Http\Requests\SpecificGarageRequest;
+use App\Models\Rating;
 use App\Repositories\Contracts\GarageRepositoryInterface;
 use App\Repositories\Contracts\VisitRepositoryInterface;
 use App\Repositories\Criteria\HomeGarageCriteria;
@@ -32,6 +34,33 @@ class GarageController extends Controller
 
         $this->garageRepository = $garageRepository;
         $this->garageRepository->pushCriteria(new HomeGarageCriteria());
+    }
+
+    
+    public function rate(RatingRequest $request)
+    {
+        $userId = Auth::user()->id;
+        $garageId = $request->input('garage_id');
+        $score = $request->input('score');
+
+        $curRate = Rating::where('garage_id', $garageId)->where('user_id', $userId)->first();
+        if ($curRate !== null) {
+            $curRate->score = $score;
+            $curRate->save();
+        } else {
+            $newRate = Rating::create([
+                'user_id' => $userId,
+                'garage_id' => $garageId,
+                'score' => $score,
+            ]);
+        }
+
+        $garage = $this->garageRepository->find($garageId);
+        $newAvg = Rating::where('garage_id', $garageId)->avg('score');
+        $garage->rating = $newAvg;
+        $garage->save();
+
+        return \Response::json(['status' => 1, 'data' => 'Thank for rating.']);
     }
 
     public function show(SpecificGarageRequest $request)
@@ -150,7 +179,7 @@ class GarageController extends Controller
     /**
      * @param $curPos
      * @param $position
-     * @param $rad km
+     * @param $rad (km)
      * @return bool
      */
     private function isNear($curPos, $position, $rad)

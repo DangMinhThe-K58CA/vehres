@@ -34,6 +34,41 @@ export default class GarageDetail
             });
         });
 
+        $('#viewGarageDetailFieldResponsed').on('click', '.ratingStarBtn', function (event) {
+            var star = $(event.currentTarget);
+            var score = star.data('score');
+            var cnf = confirm('Rate ' + score + ' stars for this garage ?');
+            if (cnf) {
+                $.ajax({
+                    url : laroute.action('App\Http\Controllers\Home\GarageController@rate'),
+                    method : 'POST',
+                    data : {'garage_id' : self.id, 'score' : score},
+                    success: function  (response) {
+                        if (response.status == -1) {
+                            var errors = response.data;
+                            errors.forEach(function (error) {
+                                alert(error.message);
+                            });
+                        } else {
+                            var div = star.closest('div');
+                            var stars = div.find('i.fa');
+                            for (var i = 0; i < stars.length; i ++) {
+                                var curStar = $(stars[i]);
+                                var curStarBtn = $(curStar.closest('a'));
+                                if (curStarBtn.data('score') <= score) {
+                                    curStar.removeClass();
+                                    curStar.addClass('fa fa-star');
+                                } else {
+                                    curStar.removeClass();
+                                    curStar.addClass('fa fa-star-o');
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        });
+
         $('#viewGarageDetailFieldResponsed').on('click', '.editCommentBtn', function (event) {
             var btn = $(event.currentTarget);
             var cmtId = btn.attr('commentId');

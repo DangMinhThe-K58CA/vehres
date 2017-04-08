@@ -1,4 +1,4 @@
-<div class="container col-sm-12" id="viewGarageDetailFieldResponsed">
+<div class="container col-md-12" id="viewGarageDetailFieldResponsed">
     <div class="row">
         <div class="card hovercard">
             <div class="cardheader" align="right">
@@ -25,12 +25,18 @@
                     @php($avgRating = $garage->rating)
                     @for($i = 1; $i <= 10; $i ++)
                         @if($i <= intval($avgRating))
-                            <i class="fa fa-star" style="font-size:20px;color:#eca33d"></i>
+                            <a href="javascript:void(0);" class="ratingStarBtn" data-score="{{ $i }}">
+                                <i class="fa fa-star" style="font-size:20px;color:#eca33d"></i>
+                            </a>
                             @if($i == intval($avgRating) && $avgRating > intval($avgRating))
-                                <i class="fa fa-star-half-full" style="font-size:20px;color:#eca33d"></i>
+                                <a href="javascript:void(0);" class="ratingStarBtn" data-score="{{ ++$i }}">
+                                    <i class="fa fa-star-half-full" style="font-size:20px;color:#eca33d"></i>
+                                </a>
                             @endif
                         @else
-                            <i class="fa fa-star-o" style="font-size:20px;color:#eca33d"></i>
+                            <a href="javascript:void(0);" class="ratingStarBtn" data-score="{{ $i }}">
+                                <i class="fa fa-star-o" style="font-size:20px;color:#eca33d"></i>
+                            </a>
                         @endif
                     @endfor
                 </div>
