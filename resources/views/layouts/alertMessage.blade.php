@@ -16,7 +16,7 @@
         @endif
         @if (count($errors->all()) > 0)
                 <div class="alert alert-danger">
-                    Please fill valid data !
+                    Something's wrong here !
                 </div>
         @endif
     </div>

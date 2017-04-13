@@ -29,7 +29,7 @@
                             <img src="{{ asset($article->avatar) }}" class="img-responsive" alt="{{ $article->avatar }}">
                             <div class="b-bottom">
                                 <h3 class="top">{{ $article->short_description }}</h3>
-                                <p class="sub">{{ $article->content }}</p>
+                                <p class="sub">{!! $article->content !!}</p>
                                 <p style="color: rgba(27, 34, 121, 1)">On {{ $article->updated_at }}</p>
                             </div>
                         </div>

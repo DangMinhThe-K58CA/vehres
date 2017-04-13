@@ -8,13 +8,6 @@
         </button>
        <h1><a class="navbar-brand" href="{{ route('home') }}">{{ trans('admin.nameApp') }}</a></h1>
     </div>
-    <div class="border-bottom">
-        <div class="full-left">
-            <section class="full-top">
-                <button id="toggle"><i class="fa fa-arrows-alt"></i></button>
-            </section>
-        <div class="clearfix"></div>
-    </div>
 
     <!-- Infomation -->
     <div class="drop-men">
@@ -82,15 +75,15 @@
                     <a href="#" class=" hvr-bounce-to-right"><i class="fa fa-book nav_icon"></i><span class="nav-label">{{ trans('admin.manageArticles') }}</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="#" class=" hvr-bounce-to-right"> <i class="fa fa-plus nav_icon"></i>New Articles</a>
+                            <a href="{{ action('Partner\ArticleController@create') }}" class=" hvr-bounce-to-right"> <i class="fa fa-plus nav_icon"></i>New Articles</a>
                         </li>
 
                         <li>
-                            <a href="#" class=" hvr-bounce-to-right"> <i class="fa fa-star nav_icon"></i>Unactivated Articles</a>
+                            <a href="{{ action('Partner\ArticleController@index', ['status' => 0]) }}" class=" hvr-bounce-to-right"> <i class="fa fa-star nav_icon"></i>Unactivated Articles</a>
                         </li>
 
                         <li>
-                            <a href="#" class=" hvr-bounce-to-right"><i class="fa fa-check nav_icon"></i>{{ trans('admin.articlesActivated') }}</a>
+                            <a href="{{ action('Partner\ArticleController@index', ['status' => 1]) }}" class=" hvr-bounce-to-right"><i class="fa fa-check nav_icon"></i>Activated Articles</a>
                         </li>
                     </ul>
                 </li>

@@ -91,8 +91,6 @@ class GarageController extends Controller
     
     public function getGarages(GettingGarageRequest $request)
     {
-//        var_dump($request->session()->get('getGaragesOptions'));
-//        dd($request->all());
         $curPos = $request->input('curPos');
         $options =  $request->input('options');
         $garages = [];

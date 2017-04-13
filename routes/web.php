@@ -35,6 +35,9 @@ Route::group(['namespace' => 'Partner', 'prefix' => 'partner', 'middleware' => [
     Route::post('updateLocation', 'GarageController@updateLocation');
     Route::get('garageMaps', 'GarageController@garageMaps');
     Route::resource('garages', 'GarageController');
+
+    //Route for managing articles.
+    Route::resource('articles', 'ArticleController');
 });
 
 //Home routes.

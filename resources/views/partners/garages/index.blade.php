@@ -31,10 +31,10 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($garages as $item)
+                @foreach($garages->items() as $key => $item)
                 <tr>
                     <td>
-                        <label>{{ $item->id }}</label>
+                        <label>{{ $key + 1 }}</label>
                         <input type='hidden' class="garageId" value="{{ $item->id }}">
                     </td>
                     <td>{{ $item->name }}</td>

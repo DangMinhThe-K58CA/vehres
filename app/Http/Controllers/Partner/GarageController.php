@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Partner;
 use App\Http\Requests\AddingGarageRequest;
 use App\Http\Requests\UpdateGarageLocationRequest;
 use App\Models\AdministrationUnit;
+use App\Models\Garage;
 use Illuminate\Http\UploadedFile;
 use MyHelper;
 use App\Http\Requests\UpdateGarageRequest;
@@ -124,9 +125,15 @@ class GarageController extends Controller
     public function show($id)
     {
         $garage = $this->repository->find($id);
+
         if ($garage === null) {
-            abort(404, 'Garage\' not found !');
+            abort(404, 'Garage\'s not found !');
         }
+
+        $this->authorize('view', $garage);
+//        if (! Auth::user()->can('view', $garage)) {
+//            abort(401);
+//        }
 
         $data = $this->initAdministrationUnit($garage->province_id, $garage->district_id);
         $data['garage'] = $garage;
@@ -153,11 +160,15 @@ class GarageController extends Controller
     public function updateLocation(UpdateGarageLocationRequest $request)
     {
         $id = $request->input('id');
-        $latLng = $request->all();
-        $result = $this->repository->update($latLng, $id);
+        $garage = $this->repository->find($id);
 
-        if ($result === 1) {
-            return \Response::json(['status' => '1', 'data' => null]);
+        if ($garage !== null || Auth::user()->can('update', $garage)) {
+            $latLng = $request->all();
+            $result = $garage->update($latLng);
+
+            if ($result === 1) {
+                return \Response::json(['status' => '1', 'data' => null]);
+            }
         }
 
         return \Response::json(['status' => -1, 'data' => [['error' => 'update_failed', 'message' => 'Something\'s wrong !']]]);
@@ -174,17 +185,16 @@ class GarageController extends Controller
     public function update(UpdateGarageRequest $request, $id)
     {
         $garage = $this->repository->find($id);
+        if ($garage === null) {
+            abort(404, 'Garage\'s not found');
+        }
+
+        $this->authorize('update', $garage);
+        
         if ($request->hasFile('avatar')) {
             $filePath = $this->uploadFile($request->file('avatar'));
-
-//            $oldAvatar = public_path() . $garage->avatar;
-//            if (\File::exists($oldAvatar)) {
-//                \File::delete($oldAvatar);
-//            }
-
             $garage->avatar = $filePath;
             $garage->save();
-//            dd($garage->avatar);
         }
 
         $data = $request->except(['avatar']);

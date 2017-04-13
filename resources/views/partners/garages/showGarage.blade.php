@@ -33,29 +33,7 @@
                 <h4 class="modal-title" id="showGarageLabel">{{ trans('admin.garages.show_garage') }}</h4>
             </div>
             <div class="col-md-8">
-                <div name="validation-errors">
-                    @if (session('success'))
-                        <div class="form-horizontal">
-                            <div class="alert alert-success">
-                                {{ session('success') }}
-                            </div>
-                        </div>
-                    @endif
-                    @if (session('error'))
-                        <div class="form-horizontal">
-                            <div class="alert alert-warning">
-                                {{ session('error') }}
-                            </div>
-                        </div>
-                    @endif
-                    @if (count($errors->all()) > 0)
-                        @foreach($errors->all() as $error)
-                            <div class="alert alert-danger">
-                                {{ $error }}
-                            </div>
-                        @endforeach
-                    @endif
-                </div>
+                @include('layouts.alertMessage')
             </div>
         </div>
         {!! Form::open(['action' => ['Partner\GarageController@update', $garage->id], 'enctype' => 'multipart/form-data', 'method' => 'PUT', 'id' => 'updateGarageForm']) !!}

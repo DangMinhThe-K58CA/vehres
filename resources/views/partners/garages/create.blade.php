@@ -14,25 +14,7 @@
                 </div>
                 <div class="col-md-8">
                     <div name="validation-errors">
-                        @if (session('success'))
-                            <div class="form-horizontal">
-                                <div class="alert alert-success">
-                                    {{ session('success') }}
-                                </div>
-                            </div>
-                        @endif
-                        @if (session('error'))
-                            <div class="form-horizontal">
-                                <div class="alert alert-warning">
-                                    {{ session('error') }}
-                                </div>
-                            </div>
-                        @endif
-                        @if (count($errors->all()) > 0)
-                            <div class="alert alert-danger">
-                                Please fill valid data !
-                            </div>
-                        @endif
+                        @include('layouts.alertMessage')
                     </div>
                 </div>
             </div>
@@ -164,7 +146,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-success" id="addGarageBtn">Finish</button>
+                    <button class="btn btn-success" id="addGarageBtn">Update</button>
                     <button type="button" class="closeModalBtn btn btn-danger" data-dismiss="modal" id="clear">Cancel</button>
                 </div>
                 {!! Form::close() !!}

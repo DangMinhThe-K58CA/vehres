@@ -102,18 +102,36 @@ $(document).ready(function () {
         });
     });
 
-    function previewImage(input, previewFieldId) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                var previewField = $(previewFieldId);
-                previewField.removeClass('hidden');
-                previewField.attr('src', e.target.result).attr('width', '100%');
-            };
-            reader.readAsDataURL(input.files[0]);
-        }
+    if ($('.textAreaForEditorField').length !== 0) {
+        CkEditorInit('contentEditor');
     }
 });
+
+function CkEditorInit(name) {
+    if (CKEDITOR.instances[name])
+    {
+        CKEDITOR.instances[name].destroy();
+    }
+    CKupdate;
+    CKEDITOR.replace(name);
+}
+
+function CKupdate(){
+    for ( instance in CKEDITOR.instances )
+        CKEDITOR.instances[instance].updateElement();
+}
+
+function previewImage(input, previewFieldId) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var previewField = $(previewFieldId);
+            previewField.removeClass('hidden');
+            previewField.attr('src', e.target.result).attr('width', '100%');
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
 
 $(document).on('click', '.closeModalBtn', function (event) {
     window.location.reload();

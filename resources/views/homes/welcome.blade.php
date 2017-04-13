@@ -104,7 +104,7 @@
                 </div>
             </div>
 
-            <div class="col-md-3 technology-right" style="margin-top: 15px;">
+            <div class="col-md-3 technology-right" style="margin-top: 15px; float: right;">
                 <div class="blo-top1" align="center">
                     <div class="tech-btm">
                         @if(isset($recentViewedArticles))
